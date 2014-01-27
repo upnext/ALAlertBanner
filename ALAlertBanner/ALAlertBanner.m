@@ -146,6 +146,8 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     self.alpha = 0.f;
     self.layer.shadowOpacity = 0.5f;
     self.tag = arc4random_uniform(SHRT_MAX);
+    self.flat = YES;
+    self.showShadow = NO;
     
     [self setupSubviews];
     [self setupInitialValues];
@@ -711,7 +713,12 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
             fillColor = [UIColor colorWithRed:(211/255.0) green:(209/255.0) blue:(100/255.0) alpha:1.f];
             break;
     }
-    
+
+    if (self.flat) {
+        CGContextSetFillColorWithColor(context, fillColor.CGColor);
+        CGContextFillRect(context, rect);
+        return;
+    }
     NSArray *colorsArray = [NSArray arrayWithObjects:(id)[fillColor CGColor], (id)[[fillColor darkerColor] CGColor], nil];
     CGColorSpaceRef colorSpace =  CGColorSpaceCreateDeviceRGB();
     const CGFloat locations[2] = {0.f, 1.f};
@@ -722,8 +729,7 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     CGGradientRelease(gradient);
     CGColorSpaceRelease(colorSpace);
     
-    CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.6f].CGColor);
-    CGContextFillRect(context, CGRectMake(0.f, rect.size.height - 1.f, rect.size.width, 1.f));
+
     CGContextSetFillColorWithColor(context, [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:0.3f].CGColor);
     CGContextFillRect(context, CGRectMake(0.f, 0.f, rect.size.width, 1.f));
 }

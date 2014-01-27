@@ -144,7 +144,6 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
 - (void)commonInit {
     self.userInteractionEnabled = YES;
     self.alpha = 0.f;
-    self.layer.shadowOpacity = 0.5f;
     self.tag = arc4random_uniform(SHRT_MAX);
     
     [self setupSubviews];
@@ -176,10 +175,6 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     _titleLabel.numberOfLines = 1;
     _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    _titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-    _titleLabel.layer.shadowOffset = CGSizeMake(0.f, -1.f);
-    _titleLabel.layer.shadowOpacity = 0.3f;
-    _titleLabel.layer.shadowRadius = 0.f;
     [self addSubview:_titleLabel];
     
     _subtitleLabel = [[UILabel alloc] init];
@@ -189,10 +184,6 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     _subtitleLabel.textAlignment = NSTextAlignmentLeft;
     _subtitleLabel.numberOfLines = 0;
     _subtitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _subtitleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-    _subtitleLabel.layer.shadowOffset = CGSizeMake(0.f, -1.f);
-    _subtitleLabel.layer.shadowOpacity = 0.3f;
-    _subtitleLabel.layer.shadowRadius = 0.f;
     [self addSubview:_subtitleLabel];
 }
 
@@ -217,49 +208,8 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
             
         case ALAlertBannerStyleWarning:
             self.styleImageView.image = [UIImage imageNamed:@"bannerAlert.png"];
-            
-            //tone the shadows down a little for the yellow background
-            self.titleLabel.layer.shadowOpacity = 0.2f;
-            self.subtitleLabel.layer.shadowOpacity = 0.2f;
-            
             break;
     }
-}
-
-- (void)setShowShadow:(BOOL)showShadow {
-    _showShadow = showShadow;
-    
-    CGFloat oldShadowRadius = self.layer.shadowRadius;
-    CGFloat newShadowRadius;
-    
-    if (showShadow) {
-        newShadowRadius = 3.f;
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowOffset = CGSizeMake(0.f, self.position == ALAlertBannerPositionBottom ? -1.f : 1.f);
-        CGRect shadowPath = CGRectMake(self.bounds.origin.x - kMargin, self.bounds.origin.y, self.bounds.size.width + kMargin*2.f, self.bounds.size.height);
-        self.layer.shadowPath = [UIBezierPath bezierPathWithRect:shadowPath].CGPath;
-        
-        self.fadeInDuration = 0.15f;
-    }
-    
-    else {
-        newShadowRadius = 0.f;
-        self.layer.shadowRadius = 0.f;
-        self.layer.shadowOffset = CGSizeZero;
-        
-        //if on iOS7, keep fade in duration at a value greater than 0 so it doesn't instantly appear behind the translucent nav bar
-        self.fadeInDuration = (AL_IOS_7_OR_GREATER && self.position == ALAlertBannerPositionTop) ? 0.15f : 0.f;
-    }
-    
-    self.layer.shouldRasterize = YES;
-    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    self.layer.shadowRadius = newShadowRadius;
-    
-    CABasicAnimation *fadeShadow = [CABasicAnimation animationWithKeyPath:@"shadowRadius"];
-    fadeShadow.fromValue = [NSNumber numberWithFloat:oldShadowRadius];
-    fadeShadow.toValue = [NSNumber numberWithFloat:newShadowRadius];
-    fadeShadow.duration = self.fadeOutDuration;
-    [self.layer addAnimation:fadeShadow forKey:@"shadowRadius"];
 }
 
 - (void)setAllowTapToDismiss:(BOOL)allowTapToDismiss {
@@ -608,20 +558,6 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     
     if (animated) {
         [UIView commitAnimations];
-    }
-    
-    if (self.showShadow) {
-        CGRect oldShadowPath = CGPathGetPathBoundingBox(self.layer.shadowPath);
-        CGRect newShadowPath = CGRectMake(self.bounds.origin.x - kMargin, self.bounds.origin.y, self.bounds.size.width + kMargin*2.f, self.bounds.size.height);
-        self.layer.shadowPath = [UIBezierPath bezierPathWithRect:newShadowPath].CGPath;
-        
-        if (animated) {
-            CABasicAnimation *shadowAnimation = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
-            shadowAnimation.fromValue = (id)[UIBezierPath bezierPathWithRect:oldShadowPath].CGPath;
-            shadowAnimation.toValue = (id)[UIBezierPath bezierPathWithRect:newShadowPath].CGPath;
-            shadowAnimation.duration = boundsAnimationDuration;
-            [self.layer addAnimation:shadowAnimation forKey:@"shadowPath"];
-        }
     }
 }
 

@@ -147,7 +147,7 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     self.layer.shadowOpacity = 0.5f;
     self.tag = arc4random_uniform(SHRT_MAX);
     self.flat = YES;
-    self.showShadow = NO;
+    self.showShadow = !self.flat;
     
     [self setupSubviews];
     [self setupInitialValues];
@@ -732,7 +732,9 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     
     CGGradientRelease(gradient);
     CGColorSpaceRelease(colorSpace);
-    
+
+    CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0.f green:0.f blue:0.f alpha:0.6f].CGColor);
+    CGContextFillRect(context, CGRectMake(0.f, rect.size.height - 1.f, rect.size.width, 1.f));
 
     CGContextSetFillColorWithColor(context, [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:0.3f].CGColor);
     CGContextFillRect(context, CGRectMake(0.f, 0.f, rect.size.width, 1.f));

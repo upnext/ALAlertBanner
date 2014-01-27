@@ -178,10 +178,12 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     _titleLabel.numberOfLines = 1;
     _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    _titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-    _titleLabel.layer.shadowOffset = CGSizeMake(0.f, -1.f);
-    _titleLabel.layer.shadowOpacity = 0.3f;
-    _titleLabel.layer.shadowRadius = 0.f;
+    if (!self.flat) {
+        _titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        _titleLabel.layer.shadowOffset = CGSizeMake(0.f, -1.f);
+        _titleLabel.layer.shadowOpacity = 0.3f;
+        _titleLabel.layer.shadowRadius = 0.f;
+    }
     [self addSubview:_titleLabel];
     
     _subtitleLabel = [[UILabel alloc] init];
@@ -191,10 +193,12 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     _subtitleLabel.textAlignment = NSTextAlignmentLeft;
     _subtitleLabel.numberOfLines = 0;
     _subtitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _subtitleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-    _subtitleLabel.layer.shadowOffset = CGSizeMake(0.f, -1.f);
-    _subtitleLabel.layer.shadowOpacity = 0.3f;
-    _subtitleLabel.layer.shadowRadius = 0.f;
+    if (!self.flat) {
+        _subtitleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        _subtitleLabel.layer.shadowOffset = CGSizeMake(0.f, -1.f);
+        _subtitleLabel.layer.shadowOpacity = 0.3f;
+        _subtitleLabel.layer.shadowRadius = 0.f;
+    }
     [self addSubview:_subtitleLabel];
 }
 
@@ -221,8 +225,10 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
             self.styleImageView.image = [UIImage imageNamed:@"bannerAlert.png"];
             
             //tone the shadows down a little for the yellow background
-            self.titleLabel.layer.shadowOpacity = 0.2f;
-            self.subtitleLabel.layer.shadowOpacity = 0.2f;
+            if (!self.flat) {
+                self.titleLabel.layer.shadowOpacity = 0.2f;
+                self.subtitleLabel.layer.shadowOpacity = 0.2f;
+            }
             
             break;
     }
@@ -242,9 +248,7 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
         self.layer.shadowPath = [UIBezierPath bezierPathWithRect:shadowPath].CGPath;
         
         self.fadeInDuration = 0.15f;
-    }
-    
-    else {
+    } else {
         newShadowRadius = 0.f;
         self.layer.shadowRadius = 0.f;
         self.layer.shadowOffset = CGSizeZero;

@@ -52,6 +52,7 @@ typedef enum {
 @property (nonatomic, readonly) ALAlertBannerStyle style;
 @property (nonatomic, readonly) ALAlertBannerPosition position;
 @property (nonatomic, readonly) ALAlertBannerState state;
+@property (nonatomic, assign) BOOL isFlat;
 
 /**
  Length of time in seconds that a banner should show before auto-hiding.

@@ -146,8 +146,8 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     self.alpha = 0.f;
     self.layer.shadowOpacity = 0.5f;
     self.tag = arc4random_uniform(SHRT_MAX);
-    self.flat = YES;
-    self.showShadow = !self.flat;
+    self.isFlat = YES;
+    self.showShadow = !self.isFlat;
     
     [self setupSubviews];
     [self setupInitialValues];
@@ -178,7 +178,7 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     _titleLabel.numberOfLines = 1;
     _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    if (!self.flat) {
+    if (!self.isFlat) {
         _titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
         _titleLabel.layer.shadowOffset = CGSizeMake(0.f, -1.f);
         _titleLabel.layer.shadowOpacity = 0.3f;
@@ -193,7 +193,7 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
     _subtitleLabel.textAlignment = NSTextAlignmentLeft;
     _subtitleLabel.numberOfLines = 0;
     _subtitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    if (!self.flat) {
+    if (!self.isFlat) {
         _subtitleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
         _subtitleLabel.layer.shadowOffset = CGSizeMake(0.f, -1.f);
         _subtitleLabel.layer.shadowOpacity = 0.3f;
@@ -225,7 +225,7 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
             self.styleImageView.image = [UIImage imageNamed:@"bannerAlert.png"];
             
             //tone the shadows down a little for the yellow background
-            if (!self.flat) {
+            if (!self.isFlat) {
                 self.titleLabel.layer.shadowOpacity = 0.2f;
                 self.subtitleLabel.layer.shadowOpacity = 0.2f;
             }
@@ -718,7 +718,7 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
             break;
     }
 
-    if (self.flat) {
+    if (self.isFlat) {
         CGContextSetFillColorWithColor(context, fillColor.CGColor);
         CGContextFillRect(context, rect);
         return;

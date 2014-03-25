@@ -770,7 +770,7 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
         case ALAlertBannerStyleWarning:
             styleString = @"ALAlertBannerStyleWarning";
             break;
-        case: ALAlertBannerStylePushNotif:
+        case ALAlertBannerStylePushNotif:
             styleString = @"ALAlertBannerStyleWarning";
             break;
     }

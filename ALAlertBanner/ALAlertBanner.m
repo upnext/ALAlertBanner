@@ -220,7 +220,9 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
         case ALAlertBannerStyleNotify:
             self.styleImageView.image = [UIImage imageNamed:@"bannerNotify.png"];
             break;
-            
+        case ALAlertBannerStylePushNotif:
+            self.styleImageView.hidden = YES;
+            break;
         case ALAlertBannerStyleWarning:
             self.styleImageView.image = [UIImage imageNamed:@"bannerAlert.png"];
             
@@ -716,6 +718,8 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
         case ALAlertBannerStyleWarning:
             fillColor = [UIColor colorWithRed:(211/255.0) green:(209/255.0) blue:(100/255.0) alpha:1.f];
             break;
+        case ALAlertBannerStylePushNotif:
+            fillColor = [UIColor blackColor];
     }
 
     if (self.isFlat) {
@@ -764,6 +768,9 @@ static CGFloat const kForceHideAnimationDuration = 0.1f;
             styleString = @"ALAlertBannerStyleNotify";
             break;
         case ALAlertBannerStyleWarning:
+            styleString = @"ALAlertBannerStyleWarning";
+            break;
+        case: ALAlertBannerStylePushNotif:
             styleString = @"ALAlertBannerStyleWarning";
             break;
     }
